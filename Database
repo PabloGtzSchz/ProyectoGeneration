@@ -1,0 +1,41 @@
+create database gdlhistorica;
+use gdlhistorica;
+create table monumentos_historicos(
+    id int not null auto_increment primary key,
+    contador_usuarios int not null default 0, 
+    nombre_construccion varchar(50) not null unique,
+    fecha_construccion varchar(60) not null default 'no se pudieron recopilar datos exactos de la fecha',
+    duracion_construccion varchar(60) not null default 'no se pudieron recopilar datos exactos de la duracion',
+    tipo_arquitectura varchar(60) not null default 'no se logro recopilar informacion del tipo de aquitectura',
+    arquitecto varchar(60) not null default 'no se logro recuperar informacion del arquitecto',
+    informacion text not null,
+    leyendas text not null,
+    contiene_restauraciones boolean not null default true,
+    uso_edificio text not null,
+    eliminado boolean default false,
+    fecha_registro datetime default current_timestamp,
+    foto varchar(200)
+);
+
+create table usuarios(
+    id int not null auto_increment primary key,
+    nombre varchar(40) not null,
+    contraseña varchar(40) not null,
+    edad tinyint not null,
+    administrador boolean not null default false,
+    domicilio varchar(40),
+    genero char not null,
+    procedencia varchar(20),
+    numero_telefonico int,
+    email varchar(30) not null unique,
+    visitado boolean not null default false,
+    fecha_visita datetime default current_timestamp
+);
+
+create table monumento_usuarios(
+    id int not null auto_increment primary key,
+    id_monumento int not null,
+    id_usuarios int not null,
+    foreign key(id_monumento) references monumentos_historicos(id),
+    foreign key(id_usuarios) references usuarios(id)
+);
